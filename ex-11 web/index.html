@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interior Decor eShop - URK24CS1119</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #0b1120;
+      color: #f8fafc;
+      padding: 30px 20px;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    header h1 {
+      font-size: 2.1rem;
+      color: #f1f5f9;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 4px 14px;
+      background: #312e81;
+      color: #c7d2fe;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      border: 1px solid #4338ca;
+    }
+
+    #notice {
+      margin-top: 10px;
+      font-weight: 500;
+      min-height: 24px;
+      font-size: 0.95rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 25px;
+    }
+
+    @media (max-width: 768px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 22px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      margin-bottom: 16px;
+      color: #cbd5e1;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 9px 12px;
+      background: #0b1120;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      color: #f8fafc;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus {
+      border-color: #818cf8;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    button {
+      padding: 9px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    #submitBtn {
+      background: #6366f1;
+      color: #ffffff;
+      flex: 1;
+    }
+
+    #submitBtn:hover {
+      background: #4f46e5;
+    }
+
+    #cancelEdit {
+      background: #475569;
+      color: #ffffff;
+    }
+
+    #cancelEdit:hover {
+      background: #334155;
+    }
+
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .list-header h2 {
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+    }
+
+    #refreshBtn {
+      background: #334155;
+      color: #e2e8f0;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
+
+    #refreshBtn:hover {
+      background: #475569;
+    }
+
+    #customerGrid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 520px;
+      overflow-y: auto;
+    }
+
+    .customer-card {
+      background: #0b1120;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 14px 16px;
+      transition: border-color 0.2s;
+    }
+
+    .customer-card:hover {
+      border-color: #6366f1;
+    }
+
+    .customer-card h3 {
+      font-size: 1.05rem;
+      color: #a5b4fc;
+      margin-bottom: 4px;
+    }
+
+    .customer-card p {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+
+    .customer-card button {
+      margin-top: 8px;
+      margin-right: 6px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+    }
+
+    .customer-card button[data-action="edit"] {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .customer-card button[data-action="edit"]:hover {
+      background: #1d4ed8;
+    }
+
+    .customer-card button[data-action="delete"] {
+      background: #e11d48;
+      color: #ffffff;
+    }
+
+    .customer-card button[data-action="delete"]:hover {
+      background: #be123c;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: #64748b;
+      padding: 30px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Interior Decor eShop</h1>
+      <div class="badge">Student ID: URK24CS1119</div>
+      <div id="notice"></div>
+    </header>
+
+    <div class="layout">
+      <!-- Form Container -->
+      <section class="card">
+        <h2 id="formTitle">JOIN INTERIOR DECOR E-SHOP</h2>
+        <form id="customerForm">
+          <input type="hidden" id="customerId" />
+
+          <div class="form-group">
+            <label for="customerName">Customer Name</label>
+            <input type="text" id="customerName" placeholder="e.g. Jane Doe (URK24CS1119)" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="urk24cs1119@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="favoriteMedium">Interior Decor Style / Theme</label>
+            <input type="text" id="favoriteMedium" placeholder="e.g. Modern Luxury, Minimalist, Scandinavian, Bohemian" required />
+          </div>
+
+          <div class="form-group">
+            <label for="orderPreference">Order / Delivery Preference</label>
+            <select id="orderPreference" required>
+              <option value="White Glove Home Delivery">White Glove Home Delivery</option>
+              <option value="Standard Home Delivery">Standard Home Delivery</option>
+              <option value="In-Store Showroom Pickup">In-Store Showroom Pickup</option>
+              <option value="Custom Decor Consultation">Custom Decor Consultation</option>
+            </select>
+          </div>
+
+          <div class="btn-group">
+            <button type="submit" id="submitBtn">Create Customer Profile</button>
+            <button type="button" id="cancelEdit" hidden>Cancel</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Customer List Container -->
+      <section class="card">
+        <div class="list-header">
+          <h2>Registered Clients Directory</h2>
+          <button type="button" id="refreshBtn">Refresh</button>
+        </div>
+
+        <div id="emptyState" class="empty-state">No client profiles registered yet.</div>
+        <div id="customerGrid"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // In-browser mock backend (NO MongoDB / NO external server needed!)
+    // Uses localStorage to persist records so it works by opening index.html directly
+    // =========================================================================
+    (function setupInBrowserMockApi() {
+      const STORAGE_KEY = "interior_decor_eshop_urk24cs1119";
+      let db = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+
+      if (!db) {
+        db = [
+          {
+            _id: "1",
+            customerName: "Theepan (URK24CS1119)",
+            email: "urk24cs1119@karunya.edu",
+            favoriteMedium: "Modern Luxury Decor",
+            orderPreference: "White Glove Home Delivery"
+          },
+          {
+            _id: "2",
+            customerName: "Sarah Jenkins",
+            email: "sarah.j@interiorstyle.com",
+            favoriteMedium: "Scandinavian Minimalist",
+            orderPreference: "Custom Decor Consultation"
+          }
+        ];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+      }
+
+      function saveDB() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+      }
+
+      const originalFetch = window.fetch;
+      window.fetch = async function(url, options = {}) {
+        const urlStr = String(url);
+        if (!urlStr.startsWith("/api/customers")) {
+          return originalFetch.apply(this, arguments);
+        }
+
+        const method = (options.method || "GET").toUpperCase();
+
+        // Simulate short network delay
+        await new Promise(r => setTimeout(r, 60));
+
+        // GET
+        if (method === "GET") {
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({ customers: [...db] })
+          };
+        }
+
+        // POST (CREATE)
+        if (method === "POST") {
+          const body = JSON.parse(options.body || "{}");
+          const newDoc = {
+            _id: String(Date.now()),
+            customerName: body.customerName,
+            email: body.email,
+            favoriteMedium: body.favoriteMedium,
+            orderPreference: body.orderPreference
+          };
+          db.push(newDoc);
+          saveDB();
+          return {
+            ok: true,
+            status: 201,
+            json: async () => ({ message: "Client profile created successfully in Interior Decor eShop!" })
+          };
+        }
+
+        // PUT (UPDATE)
+        if (method === "PUT") {
+          const body = JSON.parse(options.body || "{}");
+          const index = db.findIndex(item => String(item._id) === String(body.id));
+          if (index !== -1) {
+            db[index] = {
+              ...db[index],
+              customerName: body.customerName,
+              email: body.email,
+              favoriteMedium: body.favoriteMedium,
+              orderPreference: body.orderPreference
+            };
+            saveDB();
+            return {
+              ok: true,
+              status: 200,
+              json: async () => ({ message: "Client profile updated successfully!" })
+            };
+          }
+          return {
+            ok: false,
+            status: 404,
+            json: async () => ({ message: "Client not found." })
+          };
+        }
+
+        // DELETE
+        if (method === "DELETE") {
+          const match = urlStr.match(/[?&]id=([^&]+)/);
+          const id = match ? decodeURIComponent(match[1]) : null;
+          const index = db.findIndex(item => String(item._id) === String(id));
+          if (index !== -1) {
+            db.splice(index, 1);
+            saveDB();
+            return {
+              ok: true,
+              status: 200,
+              json: async () => ({ message: "Client profile deleted successfully!" })
+            };
+          }
+          return {
+            ok: false,
+            status: 404,
+            json: async () => ({ message: "Client not found." })
+          };
+        }
+
+        return { ok: false, status: 405, json: async () => ({ message: "Method not allowed" }) };
+      };
+    })();
+
+    // =========================================================================
+    // CRUD CONTROLLER (Maintained compatible with your structure)
+    // =========================================================================
+    const form = document.getElementById("customerForm");
+    const grid = document.getElementById("customerGrid");
+    const notice = document.getElementById("notice");
+
+    let customers = [];
+
+    function showNotice(msg, error = false) {
+      notice.textContent = msg;
+      notice.style.color = error ? "#fda4af" : "#a5b4fc";
+    }
+
+    function escapeHTML(value = "") {
+      return String(value).replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;",
+        '"': "&quot;", "'": "&#39;"
+      })[c]);
+    }
+
+    // READ: Load customer records
+    async function loadCustomers() {
+      try {
+        const res = await fetch("/api/customers");
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        customers = data.customers || [];
+        renderCustomers();
+        showNotice(`${customers.length} clients registered in Interior Decor eShop.`);
+      } catch (err) {
+        showNotice(err.message, true);
+      }
+    }
+
+    // Display customer profiles
+    function renderCustomers() {
+      grid.innerHTML = customers.map(m => `
+        <article class="customer-card">
+          <h3>${escapeHTML(m.customerName)}</h3>
+          <p>${escapeHTML(m.email)}</p>
+          <p>${escapeHTML(m.favoriteMedium)} |
+          ${escapeHTML(m.orderPreference)}</p>
+          <button data-action="edit" data-id="${m._id}">Edit</button>
+          <button data-action="delete" data-id="${m._id}">Delete</button>
+        </article>
+      `).join("");
+      document.getElementById("emptyState").hidden = customers.length > 0;
+    }
+
+    // CREATE / UPDATE
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+      const id = document.getElementById("customerId").value;
+      const payload = {
+        customerName: document.getElementById("customerName").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        favoriteMedium: document.getElementById("favoriteMedium").value.trim(),
+        orderPreference: document.getElementById("orderPreference").value
+      };
+      if (id) payload.id = id;
+
+      try {
+        const res = await fetch("/api/customers", {
+          method: id ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        showNotice(data.message);
+        form.reset();
+        document.getElementById("customerId").value = "";
+        await loadCustomers();
+      } catch (err) {
+        showNotice(err.message, true);
+      }
+    });
+
+    // EDIT / DELETE
+    grid.addEventListener("click", async e => {
+      const btn = e.target.closest("button[data-action]");
+      if (!btn) return;
+      const m = customers.find(x => String(x._id) === btn.dataset.id);
+      if (!m) return;
+
+      if (btn.dataset.action === "edit") {
+        document.getElementById("customerId").value = m._id;
+        document.getElementById("customerName").value = m.customerName;
+        document.getElementById("email").value = m.email;
+        document.getElementById("favoriteMedium").value = m.favoriteMedium;
+        document.getElementById("orderPreference").value = m.orderPreference;
+        document.getElementById("formTitle").textContent = "EDIT CLIENT DETAILS";
+        document.getElementById("submitBtn").textContent = "Save Changes";
+        document.getElementById("cancelEdit").hidden = false;
+        return;
+      }
+
+      if (confirm("Delete this customer profile?")) {
+        try {
+          const res = await fetch(
+            `/api/customers?id=${encodeURIComponent(m._id)}`,
+            { method: "DELETE" }
+          );
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message);
+          showNotice(data.message);
+          await loadCustomers();
+        } catch (err) {
+          showNotice(err.message, true);
+        }
+      }
+    });
+
+    // RESET FORM
+    document.getElementById("cancelEdit").addEventListener("click", () => {
+      form.reset();
+      document.getElementById("customerId").value = "";
+      document.getElementById("formTitle").textContent = "JOIN INTERIOR DECOR E-SHOP";
+      document.getElementById("submitBtn").textContent = "Create Customer Profile";
+      document.getElementById("cancelEdit").hidden = true;
+    });
+
+    document.getElementById("refreshBtn").addEventListener("click", loadCustomers);
+    loadCustomers();
+  </script>
+</body>
+</html>
